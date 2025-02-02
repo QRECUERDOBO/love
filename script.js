@@ -2,13 +2,14 @@
 const musicButton = document.getElementById('music-button');
 const backgroundMusic = document.getElementById('background-music');
 
+// Reproducir música al hacer clic en el botón
 musicButton.addEventListener('click', () => {
   if (backgroundMusic.paused) {
     backgroundMusic.play();
-    musicButton.textContent = '⏸️';
+    musicButton.textContent = '⏸️ Pausar música';
   } else {
     backgroundMusic.pause();
-    musicButton.textContent = '▶️';
+    musicButton.textContent = '▶️ Reproducir música';
   }
 });
 
