@@ -1,74 +1,151 @@
 body {
-  font-family: 'Great Vibes', cursive;
-  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-  color: #fff;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  overflow-x: hidden;
+ font-family: 'Great Vibes', cursive;
+ background: linear-gradient(45deg, #ff6b6b, #ffc2c2, #ffd9d9, #ffc2c2, #ff6b6b);
+ background-size: 400% 400%;
+ animation: gradient 15s ease infinite;
+ color: #fff;
+ margin: 0;
+ padding: 0;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ min-height: 100vh;
+ overflow-x: hidden;
+ position: relative;
 }
+
+@keyframes gradient {
+ 0% { background-position: 0% 50%; }
+ 50% { background-position: 100% 50%; }
+ 100% { background-position: 0% 50%; }
+}
+
+body::before {
+ content: '❤️';
+ position: fixed;
+ top: -10px;
+ animation: hearts 6s linear infinite;
+ font-size: 20px;
+ z-index: 1;
+}
+
+@keyframes hearts {
+ 0% {
+   transform: translateY(-100%) translateX(100vw) rotate(0deg);
+   opacity: 1;
+ }
+ 100% {
+   transform: translateY(100vh) translateX(-100vw) rotate(360deg);
+   opacity: 0;
+ }
+}
+
 .container {
-  text-align: center;
-  max-width: 400px;
-  width: 100%;
-  padding: 20px;
+ text-align: center;
+ max-width: 400px;
+ width: 90%;
+ padding: 20px;
+ background: rgba(255, 255, 255, 0.1);
+ backdrop-filter: blur(5px);
+ border-radius: 15px;
+ box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
 }
+
 header h1 {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+ font-size: 2.5rem;
+ margin-bottom: 10px;
+ text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
+
 header h1 span {
-  font-size: 1.5rem;
-  color: #ff6f61;
+ font-size: 1.5rem;
+ color: #ff3366;
+ text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
+
 header p {
-  font-size: 1.2rem;
-  margin: 5px 0;
+ font-size: 1.2rem;
+ margin: 5px 0;
 }
+
 #music-button {
-  background: #ff6f61;
-  border: none;
-  color: #fff;
-  font-size: 1rem;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+ background: linear-gradient(45deg, #ff3366, #ff6b6b);
+ border: none;
+ color: #fff;
+ font-size: 1rem;
+ padding: 10px 20px;
+ border-radius: 25px;
+ cursor: pointer;
+ margin-top: 10px;
+ box-shadow: 0 4px 15px rgba(255, 51, 102, 0.3);
+ transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
+#music-button:hover {
+ transform: translateY(-2px);
+ box-shadow: 0 6px 20px rgba(255, 51, 102, 0.4);
+}
+
 .carousel {
-  overflow: hidden;
-  width: 100%;
-  margin: 20px 0;
-  position: relative;
+ overflow: hidden;
+ width: 100%;
+ margin: 20px 0;
+ position: relative;
+ border-radius: 15px;
 }
+
 .carousel-inner {
-  display: flex;
-  animation: slide 20s infinite linear;
+ display: flex;
+ animation: slide 20s infinite linear;
 }
+
 .carousel img {
-  width: 100%;
-  height: auto;
-  border-radius: 10px;
-  margin-right: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+ width: 250px; /* Tamaño más pequeño para móviles */
+ height: auto;
+ border-radius: 10px;
+ margin-right: 10px;
+ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+ object-fit: cover; /* Mantiene la proporción de la imagen */
 }
+
 @keyframes slide {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-100%); }
+ 0% { transform: translateX(0); }
+ 100% { transform: translateX(-100%); }
 }
+
 .videos {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 20px;
+ display: flex;
+ flex-direction: column;
+ gap: 15px;
+ margin-top: 20px;
 }
+
 .videos video {
-  width: 100%;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+ width: 100%;
+ max-width: 300px; /* Limitamos el ancho máximo */
+ margin: 0 auto; /* Centramos los videos */
+ border-radius: 15px;
+ box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+/* Añadimos más corazones con diferentes propiedades */
+body::after {
+ content: '💕';
+ position: fixed;
+ top: -10px;
+ right: 20%;
+ animation: hearts2 7s linear infinite;
+ font-size: 25px;
+ z-index: 1;
+}
+
+@keyframes hearts2 {
+ 0% {
+   transform: translateY(-100%) translateX(0) rotate(0deg);
+   opacity: 0.8;
+ }
+ 100% {
+   transform: translateY(100vh) translateX(100vw) rotate(-360deg);
+   opacity: 0;
+ }
 }
