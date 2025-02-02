@@ -38,12 +38,15 @@ header p {
 
 /* Botón de música */
 #music-button {
-  background: none;
+  background: #ff6f61;
   border: none;
   color: #fff;
-  font-size: 1.5rem;
+  font-size: 1rem;
+  padding: 10px 20px;
+  border-radius: 5px;
   cursor: pointer;
   margin-top: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Carrusel de fotos */
