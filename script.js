@@ -1,3 +1,17 @@
+// Control de la música
+const musicButton = document.getElementById('music-button');
+const backgroundMusic = document.getElementById('background-music');
+
+musicButton.addEventListener('click', () => {
+  if (backgroundMusic.paused) {
+    backgroundMusic.play();
+    musicButton.textContent = '⏸️';
+  } else {
+    backgroundMusic.pause();
+    musicButton.textContent = '▶️';
+  }
+});
+
 // Animación del carrusel
 const carouselInner = document.querySelector('.carousel-inner');
 
