@@ -1,0 +1,71 @@
+/* Estilos generales */
+body {
+  font-family: 'Great Vibes', cursive;
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  color: #fff;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.container {
+  text-align: center;
+  max-width: 800px;
+  width: 100%;
+  padding: 20px;
+}
+
+/* Encabezado */
+header h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+header h1 span {
+  font-size: 2rem;
+  color: #ff6f61;
+}
+
+/* Carrusel de fotos */
+.carousel {
+  overflow: hidden;
+  width: 100%;
+  margin: 20px 0;
+  position: relative;
+}
+
+.carousel-inner {
+  display: flex;
+  animation: slide 20s infinite linear;
+}
+
+.carousel img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin-right: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes slide {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+/* Sección de videos */
+.videos {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.videos video {
+  width: 48%;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
