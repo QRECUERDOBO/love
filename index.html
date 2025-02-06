@@ -1,41 +1,83 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Andrés y Andrea ❤️</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Una página especial dedicada a Andrés y Andrea">
+    <title>Andrés y Andrea ❤️ | Nuestra Historia de Amor</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Añadimos fuentes de Google para mejorar la tipografía -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Añadimos FontAwesome para íconos más atractivos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>Andrés y Andrea <span>1/1/24</span> ❤️🎵</h1>
-      <p>Bruno Mars - Just The Way You Are </p>
-      <button id="music-button">▶️ Reproducir</button>
-      <audio id="background-music" loop>
-        <source src="musicalove.mp3" type="audio/mpeg">
-        Tu navegador no soporta el elemento de audio.
-      </audio>
-    </header>
-    <div class="carousel">
-      <div class="carousel-inner">
-        <img src="foto1.jpg" alt="Foto 1">
-        <img src="foto02.jpeg" alt="Foto 2">
-        <img src="foto03.jpeg" alt="Foto 3">
-        <img src="foto04.jpeg" alt="Foto 4">
-      </div>
+    <div class="container">
+        <header class="header-section">
+            <h1 class="main-title">
+                Andrés y Andrea 
+                <span class="date">1/1/24</span>
+                <span class="hearts">❤️</span>
+            </h1>
+            <div class="music-section">
+                <p class="song-title">
+                    <i class="fas fa-music"></i>
+                    Bruno Mars - Just The Way You Are 
+                </p>
+                <button id="music-button" class="music-control">
+                    <i class="fas fa-play"></i>
+                    <span>Reproducir</span>
+                </button>
+                <audio id="background-music" loop preload="auto">
+                    <source src="musicalove.mp3" type="audio/mpeg">
+                    <p>Tu navegador no soporta el elemento de audio.</p>
+                </audio>
+            </div>
+        </header>
+
+        <section class="carousel-section">
+            <h2 class="section-title">Nuestros Momentos Especiales</h2>
+            <div class="carousel">
+                <button class="carousel-button prev">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="carousel-inner">
+                    <img src="foto1.jpg" alt="Andrés y Andrea - Momento especial 1" class="carousel-image">
+                    <img src="foto02.jpeg" alt="Andrés y Andrea - Momento especial 2" class="carousel-image">
+                    <img src="foto03.jpeg" alt="Andrés y Andrea - Momento especial 3" class="carousel-image">
+                    <img src="foto04.jpeg" alt="Andrés y Andrea - Momento especial 4" class="carousel-image">
+                </div>
+                <button class="carousel-button next">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <section class="videos-section">
+            <h2 class="section-title">Nuestros Videos Favoritos</h2>
+            <div class="videos-container">
+                <div class="video-wrapper">
+                    <video controls preload="metadata" poster="thumbnail1.jpg">
+                        <source src="video1.mp4" type="video/mp4">
+                        <p>Tu navegador no soporta el elemento de video.</p>
+                    </video>
+                    <p class="video-caption">Nuestro primer baile</p>
+                </div>
+                <div class="video-wrapper">
+                    <video controls preload="metadata" poster="thumbnail2.jpg">
+                        <source src="video2.mp4" type="video/mp4">
+                        <p>Tu navegador no soporta el elemento de video.</p>
+                    </video>
+                    <p class="video-caption">Momentos divertidos juntos</p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer-section">
+            <p class="love-quote">"Contigo, cada día es San Valentín"</p>
+            <p class="copyright">© 2024 - Con amor ❤️</p>
+        </footer>
     </div>
-    <div class="videos">
-      <video controls>
-        <source src="video1.mp4" type="video/mp4">
-        Tu navegador no soporta el elemento de video.
-      </video>
-      <video controls>
-        <source src="video2.mp4" type="video/mp4">
-        Tu navegador no soporta el elemento de video.
-      </video>
-    </div>
-  </div>
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
