@@ -1,41 +1,5 @@
 // Esperar a que el DOM esté completamente cargado
 document.addEventListener('DOMContentLoaded', () => {
-     // Crear el contenedor de corazones
-    const heartsContainer = document.createElement('div');
-    heartsContainer.className = 'bouncing-hearts';
-    document.body.appendChild(heartsContainer);
-
-    // Generar corazones
-    const heartSymbols = ['❤️', '💖', '💗', '💓'];
-    const numberOfHearts = 15;
-
-    for (let i = 0; i < numberOfHearts; i++) {
-        const heart = document.createElement('div');
-        heart.className = 'bouncing-heart';
-        heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
-        
-        // Posiciones aleatorias
-        const startX = Math.random() * window.innerWidth;
-        const startY = Math.random() * window.innerHeight;
-        const midX = Math.random() * window.innerWidth;
-        const endX = Math.random() * window.innerWidth;
-        const endY = Math.random() * window.innerHeight;
-        
-        // Establecer variables CSS personalizadas para la animación
-        heart.style.setProperty('--start-x', `${startX}px`);
-        heart.style.setProperty('--start-y', `${startY}px`);
-        heart.style.setProperty('--mid-x', `${midX}px`);
-        heart.style.setProperty('--end-x', `${endX}px`);
-        heart.style.setProperty('--end-y', `${endY}px`);
-        
-        // Retrasar el inicio de la animación aleatoriamente
-        heart.style.animationDelay = `${Math.random() * 20}s`;
-        
-        heartsContainer.appendChild(heart);
-    }
-});
-
-    
     // Variables para el control de música
     const musicButton = document.getElementById('music-button');
     const backgroundMusic = document.getElementById('background-music');
