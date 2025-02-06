@@ -1,7 +1,6 @@
-/* Importación de fuentes */
+/* Mantenemos las importaciones y variables anteriores */
 @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600&display=swap');
 
-/* Variables CSS para colores y valores reutilizables */
 :root {
   --primary-color: #ff3366;
   --secondary-color: #ff6b6b;
@@ -25,11 +24,40 @@ body {
   position: relative;
 }
 
-/* Efecto de partículas de corazones */
-.heart-particle {
+/* Animación de corazones rebotando */
+.bouncing-hearts {
   position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
-  z-index: 1;
+  z-index: -1;
+}
+
+.bouncing-heart {
+  position: absolute;
+  font-size: 1.5rem;
+  animation: bounce 20s infinite linear;
+  opacity: 0.3;
+}
+
+@keyframes bounce {
+  0% {
+    transform: translate(var(--start-x), var(--start-y));
+  }
+  25% {
+    transform: translate(var(--mid-x), var(--end-y));
+  }
+  50% {
+    transform: translate(var(--end-x), var(--start-y));
+  }
+  75% {
+    transform: translate(var(--start-x), var(--end-y));
+  }
+  100% {
+    transform: translate(var(--start-x), var(--start-y));
+  }
 }
 
 @keyframes float-heart {
@@ -46,7 +74,7 @@ body {
   }
 }
 
-/* Contenedor principal con efecto glassmorphism */
+/* Contenedor principal */
 .container {
   max-width: 800px;
   width: 90%;
@@ -57,18 +85,24 @@ body {
   border-radius: 20px;
   box-shadow: 0 8px 32px var(--shadow-color);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  transform: perspective(1000px) rotateX(2deg);
-  transition: transform 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+/* Encabezado centrado */
+.header-section {
+  text-align: center;
+  margin-bottom: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .container:hover {
   transform: perspective(1000px) rotateX(0deg);
 }
 
-/* Encabezado */
-.header-section {
-  margin-bottom: 3rem;
-}
+
 
 .main-title {
   font-family: 'Great Vibes', cursive;
@@ -77,11 +111,36 @@ body {
   padding: 1rem 0;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   animation: titlePulse 2s infinite;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.main-title .names {
+  margin: 0;
+  line-height: 1.2;
+}
+
+.main-title .date {
+  font-size: 1.8rem;
+  color: var(--primary-color);
+  margin: 0.5rem 0;
+}
+
+.main-title .heart {
+  font-size: 2.5rem;
+  animation: heartBeat 1.5s infinite;
 }
 
 @keyframes titlePulse {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.05); }
+}
+
+@keyframes heartBeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
 }
 
 .date {
