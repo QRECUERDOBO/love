@@ -10,6 +10,9 @@
             padding: 0;
             box-sizing: border-box;
             user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -18,6 +21,8 @@
             overflow: hidden;
             font-family: 'Arial', sans-serif;
             color: white;
+            position: fixed;
+            width: 100%;
         }
 
         .instruction {
@@ -29,14 +34,15 @@
             color: #fff;
             font-size: 1.2rem;
             z-index: 100;
-            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
             animation: pulse 2s infinite;
+            padding: 0 20px;
         }
 
         @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(0.98); }
+            100% { opacity: 1; transform: scale(1); }
         }
 
         .vhs-tape {
@@ -46,9 +52,11 @@
             background-image: url('vhs-tape.png');
             background-size: contain;
             background-repeat: no-repeat;
+            background-position: center;
             cursor: move;
             touch-action: none;
             z-index: 10;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
         }
 
         .vhs-player {
@@ -61,6 +69,7 @@
             background-image: url('vhs-player.png');
             background-size: contain;
             background-repeat: no-repeat;
+            background-position: center;
             z-index: 5;
         }
 
@@ -71,9 +80,15 @@
             transform: translateX(-50%);
             width: 160px;
             height: 30px;
-            background: rgba(255,255,255,0.1);
-            border: 2px dashed rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.05);
+            border: 2px dashed rgba(255,255,255,0.2);
             z-index: 1;
+            transition: all 0.3s ease;
+        }
+
+        .drop-zone.active {
+            background: rgba(255,255,255,0.15);
+            border-color: rgba(255,255,255,0.4);
         }
 
         .static-overlay {
@@ -83,9 +98,10 @@
             right: 0;
             bottom: 0;
             background: url('static.gif');
-            opacity: 0.1;
+            opacity: 0.08;
             pointer-events: none;
             z-index: 1;
+            mix-blend-mode: screen;
         }
 
         .success-animation {
@@ -94,22 +110,52 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: black;
+            background: #000;
             z-index: 200;
             display: none;
-            animation: playEffect 2s forwards;
+            opacity: 0;
+        }
+
+        .success-animation.active {
+            display: block;
+            animation: playEffect 2.5s forwards;
         }
 
         @keyframes playEffect {
-            0% { transform: scale(1); opacity: 0; }
-            50% { transform: scale(1.2); opacity: 1; }
-            100% { transform: scale(20); opacity: 0; }
+            0% { opacity: 0; transform: scale(1); }
+            20% { opacity: 1; transform: scale(1); }
+            40% { opacity: 1; transform: scale(1.1); }
+            100% { opacity: 1; transform: scale(20); }
+        }
+
+        .glitch-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: white;
+            mix-blend-mode: difference;
+            pointer-events: none;
+            opacity: 0;
+            z-index: 150;
+        }
+
+        .glitch-effect.active {
+            animation: glitch 0.2s steps(2) infinite;
+        }
+
+        @keyframes glitch {
+            0% { opacity: 0; }
+            50% { opacity: 0.1; }
+            100% { opacity: 0; }
         }
     </style>
 </head>
 <body>
     <div class="instruction">Arrastra la cinta VHS al reproductor</div>
     <div class="static-overlay"></div>
+    <div class="glitch-effect" id="glitchEffect"></div>
     <div class="vhs-tape" id="vhsTape"></div>
     <div class="vhs-player"></div>
     <div class="drop-zone" id="dropZone"></div>
@@ -119,6 +165,7 @@
         const tape = document.getElementById('vhsTape');
         const dropZone = document.getElementById('dropZone');
         const successAnimation = document.getElementById('successAnimation');
+        const glitchEffect = document.getElementById('glitchEffect');
         let isDragging = false;
         let currentX;
         let currentY;
@@ -128,9 +175,15 @@
         let yOffset = 0;
 
         // Posición inicial de la cinta
-        tape.style.top = '50%';
-        tape.style.left = '50%';
-        tape.style.transform = 'translate(-50%, -50%)';
+        function setInitialPosition() {
+            const centerX = window.innerWidth / 2 - tape.offsetWidth / 2;
+            const centerY = window.innerHeight / 2 - tape.offsetHeight / 2;
+            tape.style.left = `${centerX}px`;
+            tape.style.top = `${centerY}px`;
+        }
+
+        setInitialPosition();
+        window.addEventListener('resize', setInitialPosition);
 
         function dragStart(e) {
             if (e.type === "touchstart") {
@@ -143,6 +196,7 @@
             
             if (e.target === tape) {
                 isDragging = true;
+                glitchEffect.classList.add('active');
             }
         }
 
@@ -150,14 +204,16 @@
             initialX = currentX;
             initialY = currentY;
             isDragging = false;
+            glitchEffect.classList.remove('active');
 
-            // Verificar si la cinta está sobre el reproductor
             const tapeRect = tape.getBoundingClientRect();
             const dropRect = dropZone.getBoundingClientRect();
 
             if (isOverlapping(tapeRect, dropRect)) {
                 insertTape();
             }
+            
+            dropZone.classList.remove('active');
         }
 
         function drag(e) {
@@ -176,6 +232,15 @@
                 yOffset = currentY;
 
                 setTranslate(currentX, currentY, tape);
+
+                const tapeRect = tape.getBoundingClientRect();
+                const dropRect = dropZone.getBoundingClientRect();
+                
+                if (isOverlapping(tapeRect, dropRect)) {
+                    dropZone.classList.add('active');
+                } else {
+                    dropZone.classList.remove('active');
+                }
             }
         }
 
@@ -191,15 +256,13 @@
         }
 
         function insertTape() {
-            // Animación de inserción
             tape.style.transition = 'all 0.5s ease';
-            tape.style.transform = `translate(${dropZone.offsetLeft}px, ${dropZone.offsetTop}px)`;
+            tape.style.transform = `translate(${dropZone.offsetLeft}px, ${dropZone.offsetTop}px) scale(0.9)`;
+            tape.style.opacity = '0.5';
             
-            // Mostrar animación de éxito
             setTimeout(() => {
-                successAnimation.style.display = 'block';
+                successAnimation.classList.add('active');
                 
-                // Redireccionar a la página principal
                 setTimeout(() => {
                     window.location.href = 'index.html';
                 }, 2000);
@@ -214,6 +277,11 @@
         tape.addEventListener("mousedown", dragStart, false);
         document.addEventListener("mouseup", dragEnd, false);
         document.addEventListener("mousemove", drag, false);
+
+        // Prevenir el scroll en dispositivos móviles
+        document.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+        }, { passive: false });
     </script>
 </body>
 </html>
