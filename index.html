@@ -62,6 +62,62 @@
         .static-overlay.active {
             opacity: 0.2;
         }
+
+        .vhs-container {
+            display: flex;
+            justify-content: center;
+            position: absolute;
+            top: 35%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            gap: 20px;
+        }
+
+        .vhs-tape {
+            width: 150px;
+            height: 100px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            cursor: move;
+            touch-action: none;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
+        }
+
+        #metanoiaTape { background-image: url('metanoia.jpg'); }
+        #nolcTape { background-image: url('nolc.jpg'); }
+
+        .vhs-player {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 150px;
+            background-image: url('vhs-player.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            z-index: 5;
+        }
+
+        .drop-zone {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 160px;
+            height: 30px;
+            background: rgba(255,255,255,0.05);
+            border: 2px dashed rgba(255,255,255,0.2);
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+
+        .drop-zone.active {
+            background: rgba(255,255,255,0.15);
+            border-color: rgba(255,255,255,0.4);
+        }
     </style>
 </head>
 <body>
