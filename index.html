@@ -45,62 +45,6 @@
             100% { opacity: 1; transform: scale(1); }
         }
 
-        .vhs-container {
-            display: flex;
-            justify-content: center;
-            position: absolute;
-            top: 35%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            gap: 20px;
-        }
-
-        .vhs-tape {
-            width: 150px;
-            height: 100px;
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            cursor: move;
-            touch-action: none;
-            filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
-        }
-
-        #metanoiaTape { background-image: url('metanoia.jpg'); }
-        #nolcTape { background-image: url('nolc.jpg'); }
-
-        .vhs-player {
-            position: absolute;
-            bottom: 50px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 300px;
-            height: 150px;
-            background-image: url('vhs-player.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            z-index: 5;
-        }
-
-        .drop-zone {
-            position: absolute;
-            bottom: 80px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 160px;
-            height: 30px;
-            background: rgba(255,255,255,0.05);
-            border: 2px dashed rgba(255,255,255,0.2);
-            z-index: 1;
-            transition: all 0.3s ease;
-        }
-
-        .drop-zone.active {
-            background: rgba(255,255,255,0.15);
-            border-color: rgba(255,255,255,0.4);
-        }
-
         .static-overlay {
             position: fixed;
             top: 0;
@@ -112,12 +56,17 @@
             pointer-events: none;
             z-index: 1;
             mix-blend-mode: screen;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .static-overlay.active {
+            opacity: 0.2;
         }
     </style>
 </head>
 <body>
     <div class="instruction">Arrastra la cinta VHS al reproductor</div>
-    <div class="static-overlay"></div>
+    <div class="static-overlay" id="staticOverlay"></div>
     <div class="vhs-container">
         <div class="vhs-tape" id="metanoiaTape"></div>
         <div class="vhs-tape" id="nolcTape"></div>
@@ -127,6 +76,8 @@
     <div class="success-animation" id="successAnimation"></div>
 
     <script>
+        const staticOverlay = document.getElementById('staticOverlay');
+
         function enableDrag(tape, url) {
             let isDragging = false;
             let xOffset = 0, yOffset = 0, initialX, initialY;
@@ -135,10 +86,12 @@
                 initialX = e.type.includes("touch") ? e.touches[0].clientX - xOffset : e.clientX - xOffset;
                 initialY = e.type.includes("touch") ? e.touches[0].clientY - yOffset : e.clientY - yOffset;
                 isDragging = true;
+                staticOverlay.classList.add('active');
             }
 
             function dragEnd() {
                 isDragging = false;
+                staticOverlay.classList.remove('active');
                 const tapeRect = tape.getBoundingClientRect();
                 const dropRect = dropZone.getBoundingClientRect();
 
