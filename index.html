@@ -45,8 +45,17 @@
             100% { opacity: 1; transform: scale(1); }
         }
 
-        .vhs-tape {
+        .vhs-container {
+            display: flex;
+            justify-content: center;
             position: absolute;
+            top: 35%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            gap: 20px;
+        }
+
+        .vhs-tape {
             width: 150px;
             height: 100px;
             background-size: contain;
@@ -54,7 +63,6 @@
             background-position: center;
             cursor: move;
             touch-action: none;
-            z-index: 10;
             filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
         }
 
@@ -92,12 +100,28 @@
             background: rgba(255,255,255,0.15);
             border-color: rgba(255,255,255,0.4);
         }
+
+        .static-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('static.gif');
+            opacity: 0.08;
+            pointer-events: none;
+            z-index: 1;
+            mix-blend-mode: screen;
+        }
     </style>
 </head>
 <body>
     <div class="instruction">Arrastra la cinta VHS al reproductor</div>
-    <div class="vhs-tape" id="metanoiaTape"></div>
-    <div class="vhs-tape" id="nolcTape"></div>
+    <div class="static-overlay"></div>
+    <div class="vhs-container">
+        <div class="vhs-tape" id="metanoiaTape"></div>
+        <div class="vhs-tape" id="nolcTape"></div>
+    </div>
     <div class="vhs-player"></div>
     <div class="drop-zone" id="dropZone"></div>
     <div class="success-animation" id="successAnimation"></div>
