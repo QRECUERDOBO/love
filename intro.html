@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>METANOIA - Inserta la cinta</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            background-color: #000;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+            color: white;
+        }
+
+        .instruction {
+            position: fixed;
+            top: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: #fff;
+            font-size: 1.2rem;
+            z-index: 100;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .vhs-tape {
+            position: absolute;
+            width: 150px;
+            height: 100px;
+            background-image: url('vhs-tape.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            cursor: move;
+            touch-action: none;
+            z-index: 10;
+        }
+
+        .vhs-player {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 150px;
+            background-image: url('vhs-player.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            z-index: 5;
+        }
+
+        .drop-zone {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 160px;
+            height: 30px;
+            background: rgba(255,255,255,0.1);
+            border: 2px dashed rgba(255,255,255,0.3);
+            z-index: 1;
+        }
+
+        .static-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('static.gif');
+            opacity: 0.1;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .success-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: black;
+            z-index: 200;
+            display: none;
+            animation: playEffect 2s forwards;
+        }
+
+        @keyframes playEffect {
+            0% { transform: scale(1); opacity: 0; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(20); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="instruction">Arrastra la cinta VHS al reproductor</div>
+    <div class="static-overlay"></div>
+    <div class="vhs-tape" id="vhsTape"></div>
+    <div class="vhs-player"></div>
+    <div class="drop-zone" id="dropZone"></div>
+    <div class="success-animation" id="successAnimation"></div>
+
+    <script>
+        const tape = document.getElementById('vhsTape');
+        const dropZone = document.getElementById('dropZone');
+        const successAnimation = document.getElementById('successAnimation');
+        let isDragging = false;
+        let currentX;
+        let currentY;
+        let initialX;
+        let initialY;
+        let xOffset = 0;
+        let yOffset = 0;
+
+        // Posición inicial de la cinta
+        tape.style.top = '50%';
+        tape.style.left = '50%';
+        tape.style.transform = 'translate(-50%, -50%)';
+
+        function dragStart(e) {
+            if (e.type === "touchstart") {
+                initialX = e.touches[0].clientX - xOffset;
+                initialY = e.touches[0].clientY - yOffset;
+            } else {
+                initialX = e.clientX - xOffset;
+                initialY = e.clientY - yOffset;
+            }
+            
+            if (e.target === tape) {
+                isDragging = true;
+            }
+        }
+
+        function dragEnd(e) {
+            initialX = currentX;
+            initialY = currentY;
+            isDragging = false;
+
+            // Verificar si la cinta está sobre el reproductor
+            const tapeRect = tape.getBoundingClientRect();
+            const dropRect = dropZone.getBoundingClientRect();
+
+            if (isOverlapping(tapeRect, dropRect)) {
+                insertTape();
+            }
+        }
+
+        function drag(e) {
+            if (isDragging) {
+                e.preventDefault();
+
+                if (e.type === "touchmove") {
+                    currentX = e.touches[0].clientX - initialX;
+                    currentY = e.touches[0].clientY - initialY;
+                } else {
+                    currentX = e.clientX - initialX;
+                    currentY = e.clientY - initialY;
+                }
+
+                xOffset = currentX;
+                yOffset = currentY;
+
+                setTranslate(currentX, currentY, tape);
+            }
+        }
+
+        function setTranslate(xPos, yPos, el) {
+            el.style.transform = `translate(${xPos}px, ${yPos}px)`;
+        }
+
+        function isOverlapping(rect1, rect2) {
+            return !(rect1.right < rect2.left || 
+                    rect1.left > rect2.right || 
+                    rect1.bottom < rect2.top || 
+                    rect1.top > rect2.bottom);
+        }
+
+        function insertTape() {
+            // Animación de inserción
+            tape.style.transition = 'all 0.5s ease';
+            tape.style.transform = `translate(${dropZone.offsetLeft}px, ${dropZone.offsetTop}px)`;
+            
+            // Mostrar animación de éxito
+            setTimeout(() => {
+                successAnimation.style.display = 'block';
+                
+                // Redireccionar a la página principal
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+            }, 500);
+        }
+
+        // Event Listeners
+        tape.addEventListener("touchstart", dragStart, false);
+        tape.addEventListener("touchend", dragEnd, false);
+        tape.addEventListener("touchmove", drag, false);
+
+        tape.addEventListener("mousedown", dragStart, false);
+        document.addEventListener("mouseup", dragEnd, false);
+        document.addEventListener("mousemove", drag, false);
+    </script>
+</body>
+</html>
