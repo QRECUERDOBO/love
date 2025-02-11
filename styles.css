@@ -1,7 +1,7 @@
 /* Variables CSS */
 :root {
-  --primary-color: #6b11b3;
-  --secondary-color: #2c044c;
+  --primary-color: #b366ff;
+  --secondary-color: #7a33cc;
   --accent-color: #9b4dca;
   --text-color: #fff;
   --shadow-color: rgba(31, 38, 135, 0.37);
@@ -81,24 +81,6 @@ body {
   color: var(--text-color);
 }
 
-/* Sección de streaming */
-.stream-control {
-  background: var(--accent-color);
-  border: none;
-  color: var(--text-color);
-  padding: 1rem 2rem;
-  border-radius: 50px;
-  font-size: 1.1rem;
-  margin: 1rem 0;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.stream-control:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 20px var(--accent-color);
-}
-
 /* Carrusel */
 .carousel-section {
   margin: 2rem 0;
@@ -112,16 +94,15 @@ body {
 
 .carousel-image {
   width: 100%;
-  height: 200px;
-  object-fit: cover;
+  height: auto;
+  object-fit: contain;
   filter: contrast(120%) brightness(90%);
 }
 
 /* Videos */
 .videos-container {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
+  display: flex;
+  justify-content: center;
 }
 
 .video-wrapper {
@@ -194,10 +175,5 @@ body {
   
   .container {
     padding: 0.5rem;
-  }
-  
-  .stream-control {
-    padding: 0.8rem 1.5rem;
-    font-size: 1rem;
   }
 }
